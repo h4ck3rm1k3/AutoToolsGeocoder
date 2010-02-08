@@ -1,0 +1,12 @@
+If the account isn't publishing free/busy information correctly then I would suggest that it is reset. 
+
+You will need to configure an Outlook client with the room as the default account in the profile. Once done, close Outlook completely.
+
+Click Start, Run and ty
+
+outlook.exe /cleanfreebusy
+
+and press enter. 
+That will reset the free/busy information. 
+
+test

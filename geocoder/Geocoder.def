@@ -1,0 +1,35 @@
+;LIBRARY	geocoder
+
+EXPORTS
+	GEO_Open
+	GEO_Close
+	GEO_CodeAddress
+	GEO_GetNextCandidate
+	GEO_RESULT_GetAddrNbr
+	GEO_RESULT_GetPrefix
+	GEO_RESULT_GetPredir
+	GEO_RESULT_GetStreet
+	GEO_RESULT_GetSuffix
+	GEO_RESULT_GetPostdir
+	GEO_RESULT_GetUnitDes
+	GEO_RESULT_GetUnit
+	GEO_RESULT_GetCity
+	GEO_RESULT_GetState
+	GEO_RESULT_GetStateAbbr
+	GEO_RESULT_GetCountryCode
+	GEO_RESULT_GetCountyCode
+	GEO_RESULT_GetCensusTract
+	GEO_RESULT_GetCensusBlock
+	GEO_RESULT_GetPostcode
+	GEO_RESULT_GetPostcodeExt
+	GEO_RESULT_GetLatitude
+	GEO_RESULT_GetLongitude
+	GEO_RESULT_GetMatchScore
+	GEO_RESULT_GetMatchStatus
+	GEO_RESULT_GetGeoStatus
+	GEO_RESULT_GetPrefix2
+	GEO_RESULT_GetPredir2
+	GEO_RESULT_GetStreet2
+	GEO_RESULT_GetSuffix2
+	GEO_RESULT_GetPostdir2
+

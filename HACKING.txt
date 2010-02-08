@@ -1,0 +1,75 @@
+This file contains some guidelines and best practices for working with
+Geocoder Open Source project.
+
+The used version control tool is Subversion
+<http://subversion.tigris.org/>.  
+
+There is a very good, free book about Subversion, Version Control with
+Subversion <http://svnbook.red-bean.com/>, tree-ware, printed version
+of this book is published by O'Reilly Media
+<http://www.oreilly.com/catalog/0596004486/>.
+
+
+Patches and direct commits should follow these guidelines:
+
+- Try to not mix together non-functional (e.g. whitespace/indentation)
+  and functional changes. Instead do two different patches/commits,
+  one for functional change and one for stylistic/whitespace change.
+
+
+- Group your changes to logical changesets. It's better to have
+  multiple small logical changesets than to have one big do-it-all
+  changeset.  Good criteria for grouping/logical changes is: one fix,
+  one functional change, stylistic change (no functional change) etc.
+  This is important because if something goes wrong it easier to fix
+  only the affected part of code than to wander through massive amount
+  of non-related changes.
+
+
+- Keep existing indentation and tab vs. spaces style.  The
+  following style is used for indentation at the moment: 
+  'tab-character, width 3'
+
+
+- When you add new files, do following:
+  - set correct svn-eolstyle, for source files it should be native,
+    for build system files it should be system's native line style.
+    E.g. 
+      svn ps svn:eol-style native foo.cpp 
+      svn ps svn:eol-style CRLF  foo.vcproj
+      svn ps svn:eol-style LF Makefile
+
+  - If you add ascii text files (for human consumption), add txt
+    extension as a courtesy for Windows world.
+
+- Use correct case names of files in the source code. This way the
+  paths work on case-sensitive file systems.
+
+- Do not break existing build files, try to test your changes on all
+  different build environments. If you don't have an access to test
+  system, then ask someone on explorer-commit list to do this for you.
+  <http://listserv.extendthereach.com/mailman/listinfo/explorer-commit>
+
+
+- Verify your commits before you commit:
+     # Show changed files
+     svn st
+
+     # Show actual modifications
+     svn diff
+
+
+- If you post patches, generate them at the top level of source tree/
+  working copy.  The preferred format is unified diff (diff -u) or
+  just use SVN's native diff format.  Patches should be generated
+  against latest trunk.
+
+
+- Write a commit log message which describes your change at higher
+  level and makes it easier to see what the commit actual does. The
+  same thing applies to patches, attach the log message to your patch
+  submission.
+
+
+
+Happy Hacking!

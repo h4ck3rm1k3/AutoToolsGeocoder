@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+
+	<head>
+		<title></title>
+		<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+		<meta name="vs_targetSchema" content="http://schemas.microsoft.com/intellisense/ie5">
+	</head>
+	<body>
+		<H3>Portfolio Explorer Open Source Change Log&nbsp;<BR>
+			&nbsp;
+		</H3>
+		<TABLE id="table1" cellSpacing="0" cellPadding="2" border="1">
+			<TR>
+				<TD bgColor="#c0c0c0"><B>Version</B></TD>
+				<TD bgColor="#c0c0c0"><B>Notes</B></TD>
+			</TR>
+			<TR>
+				<TD>4.0.9</TD>
+				<TD>
+                    Changed scoring for Zip5 Centroid finds. Now 're-scores' last line before generating a match result.
+				</TD>
+			</TR>
+			<TR>
+				<TD>4.0.8</TD>
+				<TD>
+                    Point Zips (with no associated street segments) will now return Zip5 Centroids rather than NULL results.
+				</TD>
+			</TR>
+			<TR>
+				<TD>4.0.7</TD>
+				<TD>
+                    <ul>
+                      <li>Changed 'iterators' to 'indexes' in method ParseGuess()
+                        in file AddressParserLastLineImp.cpp<br>
+                        to make code safer, thus fixing a problem if there was
+                        only one 'token' (only city, OR only state, OR only zip)<br>
+                        in the last line.</li>
+                      <li>Minor modifications to improve use of &quot;city
+                        alias&quot; table, now that a more<br>
+                        extensive &quot;city_replacement.csv&quot; file is
+                        available.</li>
+                      <li>Improved some of the Match Status Flags handling.</li>
+                      <li>Modified the checking of the last line, to allow
+                        possibility of finding<br>
+                        successful candidates if state is wrong.</li>
+                      <li>Added ability for Geocoder to read .ini file when
+                    determining weight values.</li>
+                    </ul>
+				</TD>
+			</TR>
+			<TR>
+				<TD>4.0.6</TD>
+				<TD>
+					<UL>
+						<LI>
+							Added C API to allow easy bindings to other languages (see <a href="http://oss.extendthereach.com/svn/repos/explorer/trunk/geocoder/Geocoder_C.h">
+								Geocoder_C.h</a>
+						)
+						<LI>
+							Updated the CLI test app to use C interface &amp; added error checking</LI></UL>
+				</TD>
+			</TR>
+			<TR>
+				<TD>4.0.5</TD>
+				<TD>Minor changes to the loaders</TD>
+			</TR>
+			<TR>
+				<TD>4.0.4</TD>
+				<TD>1st Public Open Source release</TD>
+			</TR>
+		</TABLE>
+	</body>
+</html>

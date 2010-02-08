@@ -1,0 +1,178 @@
+==============================================================
+TESTED SUCCESSFULLY ON THE FOLLOWING FLAVORS OF UNIX 
+==============================================================
+Linux spaceghost 2.6.14 #2 SMP Tue Dec 20 19:17:31 PST 2005 x86_64 GNU/Linu
+gcc version 4.1.2 20060901 (prerelease) (Debian 4.1.1-13)
+gcc version 4.0.3 (Debian 4.0.3-1)
+
+Linux conan 2.6.8-3-386 #1 Sat Jul 15 09:26:40 UTC 2006 i686 GNU/Linux
+gcc version 3.3.5 (Debian 1:3.3.5-13)
+gcc version 3.4.5 20051201 (Red Hat 3.4.5-2)
+
+Linux dev2 2.4.21-37.ELsmp #1 SMP Wed Sep 28 14:05:46 EDT 2005 i686 i686 i386 GNU/Linux
+gcc version 3.2.3 20030502 (Red Hat Linux 3.2.3-54)
+
+SunOS sanitarium 5.11 snv_28 sun4u sparc SUNW,Ultra-2
+CC: Sun C++ 5.8 2005/10/13
+
+SunOS sanitarium 5.11 snv_28 sun4u sparc SUNW,Ultra-2
+gcc version 3.3.2
+
+FreeBSD wormbaby 5.0-RELEASE FreeBSD 5.0-RELEASE #1: Tue Jul  6 06:40:09 GMT 2004     root@wormbaby:/usr/src/sys/i386/compile/WORMBABY  i386
+gcc version 3.2.1 [FreeBSD] 20021119 (release)
+
+OSF1 bobdole V5.1 2650 alpha
+gcc version 4.1.2 20060923 (prerelease)
+
+=============================================================
+IMPORTANT
+=============================================================
+Linux/unix port is based on revision 48.  C api is not
+accounted for.  geocoder_loaders are not accounted for.
+
+The Makefile is tailored for make.  If not on a Linux 
+machine, use gmake.
+
+IteratorSize is os dependant and must be defined accordingly
+for all classes that that define an IteratorSize, including:
+  global/StringSet.h
+  global/StringTorefMap.h
+  global/StringToIntMap.h
+By default, every iterator size is set to 4 bytes.
+
+The geocoder_loaders have not been touched.  They are not
+needed for the geocoding process.
+
+RawFileLinux is included but has not been tested because it 
+was determined that this object is not used in the geocoding 
+process. It is used only in the geocoder_loaders process.
+Use at your own risk.
+
+The C API is not supported, which means that the geocoder was
+tested on the old GeoCoderCLI.cpp, which uses the Geocoder
+object directly.
+
+=============================================================
+INSTRUCTIONS
+=============================================================
+Make sure that the data is in place, and then verify
+that geocoder/GeoCoderCLI.cpp has the correct path to that
+data.  You may need to edit the Makefile if you have a 
+different library path or if you want to compile on Solaris.
+
+Build and install library:
+  make
+  make install
+
+Build client:
+  make client
+
+To run the sample application:
+  client "123 Your St." "City, State, Zip"
+
+
+==============================================================
+GENERAL CHANGES
+==============================================================
+1)   Make case-sensitive
+2)   Parenthesize type casts that comprise of more than one word
+     [ i.e. foo = unsigned char( bar ) -> foo = (unsigned char)(bar) ]
+3)   All Windows exclusive features/syntax/includes will be wrapped
+     in macros
+4)   All Linux exclusive features/syntax/includes will be wrapped
+     in UNIX macros but defaulted to Windows wherever
+     applicable.
+5)   Ace will not be dependended on.  For a couple of files, Ace was the 
+     default for non-Windows platforms.
+6)   Standard C includes will be converted to C++ style includes
+     ( i.e. #include <assert.h> -> #include <cassert>.  This will 
+     probably be a no-op unless std namespace is explicitly 
+     used( i.e. std::assert(...) ).
+7)   Big/Little Endian compatible
+
+
+-------------------------------------------------------------
+SPECIFIC CHANGES
+-------------------------------------------------------------
+global/VectorNoDestruct.h
+Base class functions needed to be scope qualified.
+( e.g. at(...) -> _mybase_t::at(...) )
+
+global/StringTorefMap.h
+typedef resolution problem.
+
+global/StringSet.cpp
+global/StringTorefMap.cpp
+global/StringToIntMap.cpp
+typedef resolution problem.  Use REAL_CONST_ITER
+
+geocommon/GeoFreqTable.h
+geocommon/GeoHuffman.h
+Calls to map::insert won't compile when value_type is used.
+Use alternative std::make_pair instead.
+
+geocommon/GeoQueryImp.cpp
+Updated to support big or little endian
+
+global/RefPtr.h
+When not compiled under Windows, the default lock is Ace.
+This has been removed for linux( no lock at all ), but all 
+other platforms will default to Ace dependancy, so as to 
+retain the original behavior.
+
+global/CritSec.h
+Critical section has been WIN32 macro-defined.  Linux version
+is a no-op.  Theoretically, the equivalent should be a mutual 
+exclusion, but in this case, notes explicitly state that it 
+can't be a lock.  Furthermore, a lock would cause a deadlock 
+because some member functions will call others which use the 
+same lock.
+
+global/RawFileLinux.h
+bool BufferIsAligned(const char* ptr)
+Always returns true under Linux.  
+
+This class does not have an osbuffer option.  It does however
+initialize a protected buffer of the base class.  Although 
+this class does not use the buffer directly, the buffer is 
+being used by File.o in the PortfolioExplorerLoaders. The 
+buffer is deemed aa platform specific, and so, creation and 
+destruction is relegated to the specific RawFile derivative.
+
+global/Basics.h
+Added a type define uint32 for 32 bit unsigned integer for 
+os-specific primitive types.
+
+geocoder/Geocoder.h
+__declspec(dllexport) - This is definately a Windows thing, 
+so it is hidden behind a macro.
+
+RegularExprTokenizer.cpp
+(const unsigned char*)(&iter) -> (const unsigned char*)(&(*iter))
+This std iterator implementation does not directly boil 
+down to a char* so we have to reference a dereferenced 
+iterator to get what we want.
+
+RegularExprNFA.h
+RegularExprNFA.cpp
+void AttachOutgoingArc( NFAArcRef arc);
+Moved this function definition out into .cpp so that it 
+compiles after NFAArc's class definition.  This is odd
+why it doesn't compile otherwise, since NFAArc is forward
+declared and NFAArcRef is typedef'd at the top.
+
+
+=============================================================
+Friday, Aug 4, 2006 ( Adding linux files ) [Committed]
+=============================================================
+This first commit adds the following files:
+
+linux.changelog.txt
+Makefile
+global/RawFileLinux.h
+global/RawFileLinux.cpp
+
+Note that they are not finalized and will be edited for the 
+next commit.  They are added at this stage to facilitate 
+compilation.
+
